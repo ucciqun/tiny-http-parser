@@ -8,6 +8,14 @@
 #define BUFFER_SIZE 1024
 #define QUEUE_SIZE 3
 
+typedef struct {
+    char trace_id[33];
+    char span_id[17];
+    char parent_span_id[17];
+    int sampled;
+    int flags;
+} B3TraceContext;
+
 int main() {
     int server_fd, new_socket;
     struct sockaddr_in address;
