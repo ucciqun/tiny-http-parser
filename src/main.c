@@ -45,6 +45,28 @@ int main() {
     while ((bytes_read = recv(new_socket, buffer, BUFFER_SIZE, 0)) > 0) {
         buffer[bytes_read] = '\0';
 
+        // parse request and print header
+        char *start_line, *header_line, *message_body;
+
+        start_line = strtok(buffer, "\r\n");
+        if (start_line == NULL) {
+            printf("start_line is NULL\n");
+            exit(EXIT_FAILURE);
+        }
+        printf("start_line: %s\n", start_line);
+
+        header_line = strtok(NULL, "\r\n");
+        while (header_line != NULL && strlen(header_line) > 0) {
+            printf("Header Field: %s\n", header_line);
+            header_line = strtok(NULL, "\r\n");
+        }
+
+        message_body = strtok(NULL, "\r\n\r\n");
+        if (message_body != NULL)
+            printf("Message Body: %s\n", message_body);
+        else
+            printf("Message Body: NULL\n");
+
         memset(buffer, 0, BUFFER_SIZE);
     }
 
